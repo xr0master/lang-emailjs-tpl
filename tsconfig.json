@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "target": "es6",
-    "module": "es2020",
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "newLine": "lf",
+    "skipLibCheck": true,
     "declaration": true,
-    "moduleResolution": "node"
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src/*.ts"]
 }
