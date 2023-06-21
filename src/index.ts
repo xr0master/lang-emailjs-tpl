@@ -7,7 +7,6 @@ export const mustacheLanguage = LRLanguage.define({
     props: [
       styleTags({
         Identifier: tags.variableName,
-        String: tags.string,
         BlockComment: tags.blockComment,
         CodeTag: tags.keyword,
         '{{ }} {{{ }}} {{& }}': tags.meta,
