@@ -14,34 +14,31 @@ InsertBlock {
   "{{&" expression* "}}"
 }
 
-CodeBlock { "{{"CodeTag? !top expression* "}}" }
+CodeBlock { ("{{"CodeTag) expression* "}}" }
 
 expression {
   Identifier |
-  String
+  ChainedIdentifier
 }
 
 @tokens {
-  PlainText { ![{] PlainText }
+  PlainText { ![{] PlainText? | "{" (@eof | ![{#&!^] PlainText?) }
 
   Identifier { $[a-zA-Z_\-0-9]+ }
   ChainedIdentifier { Identifier ("." Identifier)+ }
   
   codeBlockTag { "." }
-  codeOpenBlockTag { "#" }
+  codeOpenBlockTag { "#" | "^" }
   codeCloseBlockTag { "/" }
   CodeTag { codeBlockTag | codeOpenBlockTag | codeCloseBlockTag }
 
-  String { '"' (!["\\] | "\\" _)* '"' }
-  
-  BlockComment { "{{!" PlainText "}}" }
+  BlockComment { "{{!" }
   
   space { $[ \t\n\r]+ }
   
-  "{{" "}}"
-  "(" ")"
+  "{{" "}}" "{{{" "}}}"
 
-  //@precedence { PlainText, Identifier, ChainedIdentifier, CodeTag, String, space, BlockComment }
+  @precedence { space, PlainText, CodeTag, ChainedIdentifier, Identifier, BlockComment }
 }
 
 @detectDelim
