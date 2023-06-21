@@ -1,13 +1,4 @@
-# Test Untemplated Text
-
-Some text here
-<p>Test</p>
-
-==>
-
-Template(PlainText)
-
-# Conditional
+# False Values or Empty Lists
 
 Shown.
 {{#person}}
@@ -20,19 +11,19 @@ Template(
     PlainText,
     CodeBlock(
         CodeTag,
-        Identifier
+        Identifier,
     ),
     PlainText,
     CodeBlock(
         CodeTag,
-        Identifier
-    )
+        Identifier,
+    ),
 )
 
 # List
 
 {{#musketeers}}
-{{.}}
+* {{.}}
 {{/musketeers}}
 
 ==>
@@ -40,14 +31,15 @@ Template(
 Template(
     CodeBlock(
         CodeTag,
-        Identifier
+        Identifier,
     ),
-    InsertBlock(
-        CodeTag
+    PlainText,
+    CodeBlock(
+        CodeTag,
     ),
     CodeBlock(
         CodeTag,
-        Identifier
+        Identifier,
     ),
 )
 
@@ -62,13 +54,45 @@ Template(
 Template(
     CodeBlock(
         CodeTag,
-        Identifier
+        Identifier,
     ),
     InsertBlock(
-        Identifier
+        Identifier,
     ),
     CodeBlock(
         CodeTag,
-        Identifier
+        Identifier,
+    ),
+)
+
+# Inverted Sections
+
+{{#repos}}<b>{{name}}</b>{{/repos}}
+{{^repos}}No repos :({{/repos}}
+
+==>
+
+Template(
+    CodeBlock(
+        CodeTag,
+        Identifier,
+    ),
+    PlainText,
+    InsertBlock(
+        Identifier,
+    ),
+    PlainText,
+    CodeBlock(
+        CodeTag,
+        Identifier,
+    ),
+    CodeBlock(
+        CodeTag,
+        Identifier,
+    ),
+    PlainText,
+    CodeBlock(
+        CodeTag,
+        Identifier,
     ),
 )

@@ -1,5 +1,18 @@
+# Untemplated Text
+
+Some text here
+<p>Test</p>
+{* test brace }}
+
+==>
+
+Template(
+    PlainText,
+)
+
 # Identifiers
 
+{{ with_space }}
 {{name}}
 {{{company}}}
 {{&company}}
@@ -7,19 +20,20 @@
 ==>
 
 Template(
-    InsertBlock(String),
-    InsertBlock(String),
-    InsertBlock(String)
+    InsertBlock(Identifier),
+    InsertBlock(Identifier),
+    InsertBlock(Identifier),
+    InsertBlock(Identifier),
 )
 
 # Chained Identifiers
 
-{{name.first}}
+{{name.first.Last}}
 
 ==>
 
 Template(
-    InsertBlock(ChainedIdentifier)
+    InsertBlock(ChainedIdentifier),
 )
 
 # Comments
@@ -33,5 +47,5 @@ Template(
 Template(
     PlainText,
     BlockComment,
-    PlainText
+    PlainText,
 )
