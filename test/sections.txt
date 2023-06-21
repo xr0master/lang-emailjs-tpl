@@ -1,3 +1,12 @@
+# Test Untemplated Text
+
+Some text here
+<p>Test</p>
+
+==>
+
+Template(PlainText)
+
 # Conditional
 
 Shown.
@@ -9,16 +18,18 @@ Never shown!
 
 Template(
     PlainText,
-    InsertBlock(
+    CodeBlock(
+        CodeTag,
         Identifier
     ),
     PlainText,
-    InsertBlock(
+    CodeBlock(
+        CodeTag,
         Identifier
     )
 )
 
-# Selfpointer
+# List
 
 {{#musketeers}}
 {{.}}
@@ -27,27 +38,37 @@ Template(
 ==>
 
 Template(
-    InsertBlock(
+    CodeBlock(
+        CodeTag,
         Identifier
     ),
     InsertBlock(
         CodeTag
     ),
-    InsertBlock(
+    CodeBlock(
+        CodeTag,
         Identifier
-    )
+    ),
 )
 
-# Comments
+# List of Dictionary
 
-<h1>Today
-{{! ignore me }}
-.</h1>
+{{#musketeers}}
+{{name}}
+{{/musketeers}}
 
 ==>
 
 Template(
-    PlainText,
-    BlockComment,
-    PlainText
+    CodeBlock(
+        CodeTag,
+        Identifier
+    ),
+    InsertBlock(
+        Identifier
+    ),
+    CodeBlock(
+        CodeTag,
+        Identifier
+    ),
 )

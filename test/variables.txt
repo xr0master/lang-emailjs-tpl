@@ -1,4 +1,5 @@
 # Identifiers
+
 {{name}}
 {{{company}}}
 {{&company}}
@@ -19,4 +20,18 @@ Template(
 
 Template(
     InsertBlock(ChainedIdentifier)
+)
+
+# Comments
+
+<h1>Today
+{{! ignore me }}
+.</h1>
+
+==>
+
+Template(
+    PlainText,
+    BlockComment,
+    PlainText
 )
