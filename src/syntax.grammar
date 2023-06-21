@@ -1,26 +1,47 @@
-@top Program { expression* }
+@precedence {
+  top,
+  mid,
+  lesser
+}
 
-@skip { space | LineComment }
+@top Template { (InsertBlock | CodeBlock | PlainText)* }
+
+@skip { space | BlockComment }
+
+InsertBlock {
+  "{{" expression* "}}" |
+  "{{{" expression* "}}}" |
+  "{{&" expression* "}}"
+}
+
+CodeBlock { "{{"CodeTag? !top expression* "}}" }
 
 expression {
   Identifier |
-  String |
-  Boolean |
-  Application { "(" expression* ")" }
+  String
 }
 
 @tokens {
+  PlainText { ![{] PlainText }
+
   Identifier { $[a-zA-Z_\-0-9]+ }
+  ChainedIdentifier { Identifier ("." Identifier)+ }
+  
+  codeBlockTag { "." }
+  codeOpenBlockTag { "#" }
+  codeCloseBlockTag { "/" }
+  CodeTag { codeBlockTag | codeOpenBlockTag | codeCloseBlockTag }
 
   String { '"' (!["\\] | "\\" _)* '"' }
-
-  Boolean { "#t" | "#f" }
-
-  LineComment { ";" ![\n]* }
-
+  
+  BlockComment { "{{!" PlainText "}}" }
+  
   space { $[ \t\n\r]+ }
-
+  
+  "{{" "}}"
   "(" ")"
+
+  //@precedence { PlainText, Identifier, ChainedIdentifier, CodeTag, String, space, BlockComment }
 }
 
 @detectDelim
