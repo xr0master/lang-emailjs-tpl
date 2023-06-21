@@ -1,0 +1,53 @@
+# Conditional
+
+Shown.
+{{#person}}
+Never shown!
+{{/person}}
+
+==>
+
+Template(
+    PlainText,
+    InsertBlock(
+        Identifier
+    ),
+    PlainText,
+    InsertBlock(
+        Identifier
+    )
+)
+
+# Selfpointer
+
+{{#musketeers}}
+{{.}}
+{{/musketeers}}
+
+==>
+
+Template(
+    InsertBlock(
+        Identifier
+    ),
+    InsertBlock(
+        CodeTag
+    ),
+    InsertBlock(
+        Identifier
+    )
+)
+
+# Comments
+
+<h1>Today
+{{! ignore me }}
+.</h1>
+
+==>
+
+Template(
+    PlainText,
+    BlockComment,
+    PlainText
+)

@@ -1,0 +1,22 @@
+# Identifiers
+{{name}}
+{{{company}}}
+{{&company}}
+
+==>
+
+Template(
+    InsertBlock(String),
+    InsertBlock(String),
+    InsertBlock(String)
+)
+
+# Chained Identifiers
+
+{{name.first}}
+
+==>
+
+Template(
+    InsertBlock(ChainedIdentifier)
+)
