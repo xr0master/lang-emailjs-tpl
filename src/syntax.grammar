@@ -1,24 +1,45 @@
-@precedence {
-  top,
-  mid,
-  lesser
-}
+//!top
 
-@top Template { (InsertBlock | CodeBlock | PlainText)* }
+@top Template { statement* }
+
+//!statement
+
+statement[@isGroup=Statement] {
+  InsertBlock |
+  CodeBlock |
+  PlainText
+}
 
 @skip { space | BlockComment }
 
+//!insertBlock
+
 InsertBlock {
-  "{{" expression* "}}" |
-  "{{{" expression* "}}}" |
-  "{{&" expression* "}}"
+  ("{{" | "{{&") expression? "}}" |
+  "{{{" expression? "}}}"
 }
+
+//! codeBlock
 
 CodeBlock { ("{{"CodeTag) expression* "}}" }
 
-expression {
+//!expression
+
+expression[@isGroup=Expression] {
   Identifier |
   ChainedIdentifier
+}
+
+//!blockComment
+
+@skip {} {
+  BlockComment { "{{!" (blockCommentContent | blockCommentNewline)* blockCommentEnd }
+}
+
+@local tokens {
+  blockCommentEnd { "}}" }
+  blockCommentNewline { "\n" }
+  @else blockCommentContent
 }
 
 @tokens {
@@ -32,13 +53,13 @@ expression {
   codeCloseBlockTag { "/" }
   CodeTag { codeBlockTag | codeOpenBlockTag | codeCloseBlockTag }
 
-  BlockComment { "{{!" }
-  
   space { $[ \t\n\r]+ }
   
-  "{{" "}}" "{{{" "}}}"
+  "{{" "}}" "{{{" "}}}" "{{&"
 
-  @precedence { space, PlainText, CodeTag, ChainedIdentifier, Identifier, BlockComment }
+  @precedence { "{{!", "{{" }
+
+  @precedence { space, PlainText, CodeTag, ChainedIdentifier, Identifier }
 }
 
 @detectDelim
