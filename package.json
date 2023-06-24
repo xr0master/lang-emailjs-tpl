@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha test/test.js",
-    "prepare": "rollup -c"
+    "build": "rollup -c"
   },
   "type": "module",
   "main": "dist/index.cjs",

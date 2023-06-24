@@ -6,10 +6,10 @@ export const mustacheLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       styleTags({
-        Identifier: tags.variableName,
-        BlockComment: tags.blockComment,
-        CodeTag: tags.keyword,
-        '{{ }} {{{ }}} {{& }}': tags.meta,
+        Identifier: tags.atom,
+        Comment: tags.blockComment,
+        'ListTag StartSectionTag CloseSectionTag EndSectionTag': tags.keyword,
+        'OpenTag CloseTag OpenUnsafeTag CloseUnsafeTag': tags.keyword,
       }),
     ],
   }),

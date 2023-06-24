@@ -15,15 +15,13 @@ Template(
 {{ with_space }}
 {{name}}
 {{{company}}}
-{{&company}}
 
 ==>
 
 Template(
-    InsertBlock(Identifier),
-    InsertBlock(Identifier),
-    InsertBlock(Identifier),
-    InsertBlock(Identifier),
+    Variable(OpenTag, Identifier, CloseTag),
+    Variable(OpenTag, Identifier, CloseTag),
+    Variable(OpenUnsafeTag, Identifier, CloseUnsafeTag),
 )
 
 # Chained Identifiers
@@ -33,7 +31,7 @@ Template(
 ==>
 
 Template(
-    InsertBlock(ChainedIdentifier),
+    Variable(OpenTag, ChainedIdentifier, CloseTag),
 )
 
 # Comments
@@ -46,6 +44,6 @@ Template(
 
 Template(
     PlainText,
-    BlockComment,
+    Comment,
     PlainText,
 )

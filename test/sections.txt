@@ -9,14 +9,18 @@ Never shown!
 
 Template(
     PlainText,
-    CodeBlock(
-        CodeTag,
-        Identifier,
-    ),
-    PlainText,
-    CodeBlock(
-        CodeTag,
-        Identifier,
+    Section(
+        OpenSection(
+            StartSectionTag,
+            Identifier,
+            EndSectionTag,
+        ),
+        PlainText,
+        CloseSection(
+            CloseSectionTag,
+            Identifier,
+            EndSectionTag,
+        ),
     ),
 )
 
@@ -29,17 +33,11 @@ Template(
 ==>
 
 Template(
-    CodeBlock(
-        CodeTag,
-        Identifier,
-    ),
-    PlainText,
-    CodeBlock(
-        CodeTag,
-    ),
-    CodeBlock(
-        CodeTag,
-        Identifier,
+    Section(
+        OpenSection(StartSectionTag, Identifier, EndSectionTag),
+        PlainText,
+        Variable(OpenTag, ListTag, CloseTag),
+        CloseSection(CloseSectionTag, Identifier, EndSectionTag),
     ),
 )
 
@@ -52,47 +50,35 @@ Template(
 ==>
 
 Template(
-    CodeBlock(
-        CodeTag,
-        Identifier,
-    ),
-    InsertBlock(
-        Identifier,
-    ),
-    CodeBlock(
-        CodeTag,
-        Identifier,
+    Section(
+        OpenSection(StartSectionTag, Identifier, EndSectionTag),
+        Variable(OpenTag, Identifier, CloseTag),
+        CloseSection(CloseSectionTag, Identifier, EndSectionTag),
     ),
 )
 
 # Inverted Sections
 
-{{#repos}}<b>{{name}}</b>{{/repos}}
-{{^repos}}No repos :({{/repos}}
+{{#repos}}
+    <b>{{name}}</b>
+{{/repos}}
+{{^repos}}
+    No repos :(
+{{/repos}}
 
 ==>
 
 Template(
-    CodeBlock(
-        CodeTag,
-        Identifier,
+    Section(
+        OpenSection(StartSectionTag, Identifier, EndSectionTag),
+        PlainText,
+        Variable(OpenTag, Identifier, CloseTag),
+        PlainText,
+        CloseSection(CloseSectionTag, Identifier, EndSectionTag),
     ),
-    PlainText,
-    InsertBlock(
-        Identifier,
-    ),
-    PlainText,
-    CodeBlock(
-        CodeTag,
-        Identifier,
-    ),
-    CodeBlock(
-        CodeTag,
-        Identifier,
-    ),
-    PlainText,
-    CodeBlock(
-        CodeTag,
-        Identifier,
+    Section(
+        OpenSection(StartSectionTag, Identifier, EndSectionTag),
+        PlainText,
+        CloseSection(CloseSectionTag, Identifier, EndSectionTag),
     ),
 )

@@ -1,27 +1,40 @@
 //!top
 
-@top Template { statement* }
+@top Template { (entity | PlainText)* }
 
-//!statement
+//!dialects
 
-statement[@isGroup=Statement] {
-  InsertBlock |
-  CodeBlock |
-  PlainText
+@dialects { noMatch }
+
+//!entity
+
+entity[@isGroup=Entity] {
+  Variable |
+  Section
 }
 
-@skip { space | BlockComment }
+@skip { space | Comment }
 
-//!insertBlock
+//!Variable  
 
-InsertBlock {
-  ("{{" | "{{&") expression? "}}" |
-  "{{{" expression? "}}}"
+Variable {
+  OpenTag (expression* | ListTag) CloseTag |
+  OpenUnsafeTag expression* CloseUnsafeTag
 }
 
-//! codeBlock
+//! Section
 
-CodeBlock { ("{{"CodeTag) expression* "}}" }
+Section {
+  OpenSection (entity | PlainText)* CloseSection
+}
+
+OpenSection[closedBy=CloseSection] {
+  StartSectionTag expression* EndSectionTag
+}
+
+CloseSection[openedBy=OpenSection] {
+  CloseSectionTag expression* EndSectionTag
+}
 
 //!expression
 
@@ -30,16 +43,18 @@ expression[@isGroup=Expression] {
   ChainedIdentifier
 }
 
-//!blockComment
+//!comment
 
 @skip {} {
-  BlockComment { "{{!" (blockCommentContent | blockCommentNewline)* blockCommentEnd }
+  Comment {
+    "{{!" (commentContent | commentNewline)* commentEnd
+  }
 }
 
 @local tokens {
-  blockCommentEnd { "}}" }
-  blockCommentNewline { "\n" }
-  @else blockCommentContent
+  commentEnd { "}}" }
+  commentNewline { "\n" }
+  @else commentContent
 }
 
 @tokens {
@@ -48,18 +63,19 @@ expression[@isGroup=Expression] {
   Identifier { $[a-zA-Z_\-0-9]+ }
   ChainedIdentifier { Identifier ("." Identifier)+ }
   
-  codeBlockTag { "." }
-  codeOpenBlockTag { "#" | "^" }
-  codeCloseBlockTag { "/" }
-  CodeTag { codeBlockTag | codeOpenBlockTag | codeCloseBlockTag }
+  OpenTag[closedBy=CloseTag] { "{{" }
+  CloseTag[openedBy=OpenTag] { "}}" }
+  OpenUnsafeTag[closedBy=CloseUnsafeTag] { "{{{" }
+  CloseUnsafeTag[openedBy=OpenUnsafeTag] { "}}}" }
+
+  ListTag { "." }
+  StartSectionTag[closedBy=EndSectionTag] { "{{#" | "{{^" }
+  CloseSectionTag[closedBy=EndSectionTag] { "{{/" }
+  EndSectionTag[openedBy=CloseSectionTag,openedBy=StartSectionTag] { "}}" }
 
   space { $[ \t\n\r]+ }
-  
-  "{{" "}}" "{{{" "}}}" "{{&"
 
-  @precedence { "{{!", "{{" }
-
-  @precedence { space, PlainText, CodeTag, ChainedIdentifier, Identifier }
+  @precedence {space, PlainText, ListTag, ChainedIdentifier, Identifier }
 }
 
 @detectDelim
