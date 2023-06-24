@@ -2,6 +2,8 @@
   "name": "codemirror-lang-emailjs-tpl",
   "version": "0.1.0",
   "description": "EmailJS Template language support for CodeMirror",
+  "private": false,
+  "author": "Sergey Khomushin <xr0master@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "mocha test/test.js",
@@ -16,6 +18,18 @@
   },
   "types": "dist/index.d.ts",
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xr0master/lang-emailjs-tpl.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "emailjs",
+    "emailjs templates",
+    "emailjs-com"
+  ],
   "dependencies": {
     "@codemirror/language": "^6.8.0",
     "@lezer/highlight": "^1.1.6",
