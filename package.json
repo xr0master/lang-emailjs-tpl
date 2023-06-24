@@ -1,7 +1,7 @@
 {
-  "name": "codemirror-lang-mustache",
+  "name": "codemirror-lang-emailjs-tpl",
   "version": "0.1.0",
-  "description": "Mustache language support for CodeMirror",
+  "description": "EmailJS Template language support for CodeMirror",
   "license": "MIT",
   "scripts": {
     "test": "mocha test/test.js",

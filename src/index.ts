@@ -2,7 +2,7 @@ import { parser } from './syntax.grammar';
 import { LRLanguage, LanguageSupport } from '@codemirror/language';
 import { styleTags, tags } from '@lezer/highlight';
 
-export const mustacheLanguage = LRLanguage.define({
+export const emailjsTemplateLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       styleTags({
@@ -23,6 +23,6 @@ export const mustacheLanguage = LRLanguage.define({
   },
 });
 
-export function mustache() {
-  return new LanguageSupport(mustacheLanguage);
+export function emailjsTemplate() {
+  return new LanguageSupport(emailjsTemplateLanguage);
 }
