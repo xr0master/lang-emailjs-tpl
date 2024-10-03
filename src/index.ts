@@ -6,7 +6,7 @@ export const emailjsTemplateLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       styleTags({
-        Identifier: tags.atom,
+        'Identifier ChainedIdentifier': tags.atom,
         Comment: tags.blockComment,
         'ListTag StartSectionTag CloseSectionTag EndSectionTag': tags.keyword,
         'OpenTag CloseTag OpenUnsafeTag CloseUnsafeTag': tags.keyword,
